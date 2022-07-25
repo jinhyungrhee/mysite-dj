@@ -11,3 +11,7 @@ class Post(models.Model):
     # admin Post 목록에 제목 나타내기
     def __str__(self):
         return f'[{self.pk}]{self.title}'
+
+    # 모델의 레코드별 URL 생성 규칙 정의
+    def get_absolute_url(self):
+        return f'/blog/{self.pk}/'

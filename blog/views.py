@@ -9,6 +9,17 @@ def index(request):
         request,
         'blog/index.html',
         {
-            'posts': posts,
+            'posts': posts, # template으로 보내는 데이터(context)
+        }
+    )
+
+def single_post_page(request, pk):
+    post = Post.objects.get(pk=pk)
+
+    return render(
+        request,
+        'blog/single_post_page.html',
+        {
+            'post': post,
         }
     )
