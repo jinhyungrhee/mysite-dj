@@ -1,11 +1,15 @@
-from django.shortcuts import render
-from django.views.generic import ListView
+# from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 from .models import Post
 
-# CBV 포스트 목록 페이지
+# CBV 포스트 목록 페이지(ListView)
 class PostList(ListView):
     model = Post
     ordering = '-pk'
+
+# CBV 포스트 상세 페이지(Detail View)
+class PostDetail(DetailView):
+    model = Post
 
 # FBV 포스트 목록 페이지
 # def index(request):
@@ -20,13 +24,14 @@ class PostList(ListView):
 #         }
 #     )
 
-def single_post_page(request, pk):
-    post = Post.objects.get(pk=pk)
-
-    return render(
-        request,
-        'blog/single_post_page.html',
-        {
-            'post': post,
-        }
-    )
+# FBV 포스트 상세 페이지
+# def single_post_page(request, pk):
+#     post = Post.objects.get(pk=pk)
+# 
+#     return render(
+#         request,
+#         'blog/single_post_page.html',
+#         {
+#             'post': post,
+#         }
+#     )
