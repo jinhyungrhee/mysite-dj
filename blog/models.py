@@ -1,4 +1,5 @@
 from django.db import models
+import os
 
 class Post(models.Model):
     title = models.CharField(max_length=30)
@@ -18,3 +19,12 @@ class Post(models.Model):
     # 모델의 레코드별 URL 생성 규칙 정의
     def get_absolute_url(self):
         return f'/blog/{self.pk}/'
+
+    # 첨부 파일명 반환
+    def get_file_name(self):
+        return os.path.basename(self.file_upload.name)
+
+    # 첨부 파일 확장자명 반환
+    def get_file_ext(self):
+        return self.get_file_name().split('.')[-1]
+
