@@ -18,6 +18,12 @@ class PostList(ListView):
 class PostDetail(DetailView):
     model = Post
 
+    def get_context_data(self, **kwargs):
+        context = super(PostDetail, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_post_count'] = Post.objects.filter(category=None).count()
+        return context
+
 # FBV 포스트 목록 페이지
 # def index(request):
 #     # DB에 query 날리기
