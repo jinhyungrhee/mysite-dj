@@ -9,6 +9,10 @@ class Category(models.Model):
     def __str__(self): # 외부에 나타나는 이름/제목
         return self.name
 
+    # Slug 필드를 사용하여 고유 URL 생성
+    def get_absolute_url(self):
+        return f'/blog/category/{self.slug}/'
+
     class Meta:
         verbose_name_plural = 'Categories'
 

@@ -42,7 +42,7 @@
                 <ul>
                     {% for category in categories %}
                     <li>
-                        <a href="{{ category.get_absolut_url }}">{{ category }} ({{ category.post_set.count }})</a>
+                        <a href="{{ category.get_absolute_url }}">{{ category }} ({{ category.post_set.count }})</a>
                     </li>
                     {% endfor %}
                     <li>
