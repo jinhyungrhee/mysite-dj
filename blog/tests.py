@@ -166,3 +166,32 @@ class TestView(TestCase):
         # post_002, 003의 제목은 메인영역에 존재하지 않는지 체크
         self.assertNotIn(self.post_002.title, main_area.text)
         self.assertNotIn(self.post_003.title, main_area.text)
+
+    # 태그 페이지 테스트
+    def test_tag_page(self):
+        # 1. setUp() 함수에서 만든 태그 중 name 필드가 'hello'인 것을 가져와서 테스트
+        response = self.client.get(self.tag_hello.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+
+        # 2.내비게이션 바와 오른쪽의 카테고리 카드를 테스트하는 navbar_test()와 category_card_test() 함수 재사용
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.navbar_test(soup)
+        self.category_card_test(soup)
+
+        # 3. 태그 페이지 제목(<h1\>)에 태그 이름이 있는지 확인
+        self.assertIn(self.tag_hello.name, soup.h1.text)
+
+        # 4. 메인 영역에 'hello'가 존재하는지 확인
+        main_area = soup.find('div', id='main-area')
+        self.assertIn(self.tag_hello.name, main_area.text)
+
+        # 5. 이 태그가 붙어있는 self.post_001의 타이틀이 메인 영역에 존재하는지 확인
+        self.assertIn(self.post_001.title, main_area.text)
+        # 6. 'hello' 태그를 사용하지 않는 self.post_002와 self.post_003의 타이틀이 메인 영역에 없는지 확인
+        self.assertNotIn(self.post_002.title, main_area.text)
+        self.assertNotIn(self.post_003.title, main_area.text)
+
+
+
+
+

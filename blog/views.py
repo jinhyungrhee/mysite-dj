@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import Post, Category
+from .models import Post, Category, Tag
 
 # CBV 포스트 목록 페이지(ListView)
 class PostList(ListView):
@@ -42,6 +42,23 @@ def category_page(request, slug):
             'categories' : Category.objects.all(),
             'no_category_post_count' : Post.objects.filter(category=None).count(),
             'category' : category,
+        }
+    )
+
+# FBV 태그 페이지
+def tag_page(request, slug):
+    tag = Tag.objects.get(slug=slug)
+    post_list = tag.post_set.all() # FK tag 필드로 연결된 모든 post 목록
+
+    return render(
+        request,
+        'blog/post_list.html',
+        # context
+        {
+            'post_list' : post_list,
+            'tag' : tag,
+            'categories' : Category.objects.all(),
+            'no_category_post_count' : Post.objects.filter(category=None).count(),
         }
     )
 
