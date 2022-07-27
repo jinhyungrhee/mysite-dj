@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('update_post/<int:pk>/', views.PostUpdate.as_view()), # 포스트 수정 페이지
     path('create_post/', views.PostCreate.as_view()), # 포스트 작성 페이지
     path('tag/<str:slug>/', views.tag_page), # 태그 페이지
     path('category/<str:slug>/', views.category_page), # 카테고리 페이지
