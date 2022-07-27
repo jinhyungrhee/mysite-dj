@@ -9,6 +9,9 @@ class TestView(TestCase):
         # 작성자(author) 데이터 생성
         self.user_trump = User.objects.create_user(username='trump', password='somepassword')
         self.user_obama = User.objects.create_user(username='obama', password='somepassword')
+        # obama만 staff로 설정
+        self.user_obama.is_staff = True
+        self.user_obama.save()
         # 카테고리 데이터 생성
         self.category_programming = Category.objects.create(name='programming', slug='programming')
         self.category_music = Category.objects.create(name='music', slug='music')
@@ -198,9 +201,13 @@ class TestView(TestCase):
         response = self.client.get('/blog/create_post/')
         self.assertNotEqual(response.status_code, 200)
 
-        # 로그인 수행
+        # trump(일반유저)로 로그인하여 테스트
         self.client.login(username='trump', password='somepassword')
+        response = self.client.get('/blog/create_post/')
+        self.assertNotEqual(response.status_code, 200)
 
+        # obama(스태프)로 로그인하여 테스트
+        self.client.login(username='obama', password='somepassword')
         response = self.client.get('/blog/create_post/')
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -220,7 +227,7 @@ class TestView(TestCase):
         self.assertEqual(Post.objects.count(), 4)
         last_post = Post.objects.last()
         self.assertEqual(last_post.title, "Post Form 만들기")
-        self.assertEqual(last_post.author.username, 'trump')
+        self.assertEqual(last_post.author.username, 'obama')
 
 
 
